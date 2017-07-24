@@ -1,28 +1,127 @@
+
+
+
 <!DOCTYPE html>
 <html>
   <head>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta content="text/html;charset=utf-8" http-equiv="Content-Type">
+<meta content="utf-8" http-equiv="encoding">
     <title>View Animation</title>
     <link rel="stylesheet" href="https://openlayers.org/en/v4.2.0/css/ol.css" type="text/css">
     <!-- The line below is only needed for old environments like Internet Explorer and Android 4.x -->
     <script src="https://cdn.polyfill.io/v2/polyfill.min.js?features=requestAnimationFrame,Element.prototype.classList,URL"></script>
     <script src="https://openlayers.org/en/v4.2.0/build/ol.js"></script>
-  </head>
+
+   
+<link href="flatnav.css" rel="stylesheet">
+		<meta name="robots" content="noindex,follow" />
+<script src="https://code.jquery.com/jquery-2.2.3.min.js"></script>
+
+<script src="icon.js"></script>    
+ <script src="popup.js"></script>  
+</head>
+<style>
+.ol-viewport{
+	z-index:-1;
+}
+
+
+.container {
+    overflow: hidden;
+    background-color: #333;
+    font-family: Arial;
+}
+
+.container a {
+    float: left;
+    font-size: 16px;
+    color: white;
+    text-align: center;
+    padding: 14px 16px;
+    text-decoration: none;
+}
+
+.dropdown {
+    float: left;
+    overflow: hidden;
+}
+
+.dropdown .dropbtn {
+    cursor: pointer;
+    font-size: 16px;    
+    border: none;
+    outline: none;
+    color: white;
+    padding: 14px 16px;
+    background-color: inherit;
+}
+
+.container a:hover, .dropdown:hover .dropbtn {
+    background-color: red;
+}
+
+.dropdown-content {
+    display: none;
+    position: absolute;
+    background-color: #f9f9f9;
+    min-width: 160px;
+    box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+    z-index: 1;
+}
+
+.dropdown-content a {
+    float: none;
+    color: black;
+    padding: 12px 16px;
+    text-decoration: none;
+    display: block;
+    text-align: left;
+}
+
+.dropdown-content a:hover {
+    background-color: #ddd;
+}
+
+.show {
+    display: block;
+}
+
+</style>
   <body>
-    <div id="map" class="map"></div>
-    <button id="rotate-left" title="Rotate clockwise">↻</button>
-    <button id="rotate-right" title="Rotate counterclockwise">↺</button>
-    <button id="pan-to-enter">Pan to enter</button> 
-   <button id="pan-to-tcc">Pan to tcc</button>
-    <button id="elastic-to-auditorium">Elastic to auditorium</button>
-    <button id="bounce-to-workshop">Bounce to workshop</button>
-    <button id="spin-to-mba_block">Spin to mba_block</button>
-    <button id="fly-to-pg_block">Fly to pg_block</button>
-    <button id="rotate-around-library">Rotate around library</button>
-    <button id="pan-to-sports">Pan to sports</button>
-    <button id="tour">Take a tour</button>
+<ul class="nav">
+		<li>
+		<a href="https://lab.gdy.club">Home</a>
+		</li>
+		<li>
+			<a <button id="tour">Take a tour</button></a>
+		</li>
+
+		
+		<li id="Animations">
+			<a href="#">Animations</a>
+			<ul class="subnav">
+				<li><a <button id="rotate-left" title="Rotate clockwise">clockwise</button></a></li>
+				<li><a <button id="rotate-right" title="Rotate counterclockwise">anticlockwise</button></a></li>
+				<li> <a <button id="pan-to-main_gate">Main Gate</button></a> </li>
+				<li><a <button id="pan-to-boyshostel">Boys Hostel</button></a></li>
+				<li><a <button id="elastic-to-auditorium">Auditorium</button></a></li>
+				<li><a <button id="bounce-to-workshop">Workshop</button></a></li>
+				<li><a <button id="spin-to-mba_block">MBA Block</button></a></li>
+				<li><a <button id="fly-to-pg_block">PG Block</button></a></li>
+				<li><a <button id="pan-to-library">Library</button></a></li>
+				<li><a <button id="pan-to-sports">Sports</button></a></li>
+			</ul>
+		</li>
+	</ul>
+<script  src="prefixfree-1.0.7.js" type="text/javascript"></script>
+
+
+   <div id="map" class="map"></div>
+
     <script>
-      var enter = ol.proj.fromLonLat([75.85956, 30.86063]);
-      var tcc = ol.proj.fromLonLat([75.86018, 30.85821]);
+      var main_gate = ol.proj.fromLonLat([75.85956, 30.86063]);
+      var boyshostel = ol.proj.fromLonLat([75.86399, 30.86001]);
       var auditorium = ol.proj.fromLonLat([75.86068, 30.85885]);
       var workshop = ol.proj.fromLonLat([75.86165, 30.85957]);
       var mba_block = ol.proj.fromLonLat([75.86015, 30.85990]);
@@ -31,23 +130,26 @@
       var sports = ol.proj.fromLonLat([75.86356, 30.85878]);
 
       var view = new ol.View({
-        center: tcc,
-        zoom: 20
+        center: mba_block,
+        zoom: 19
       });
+
+          var rasterLayer = new ol.layer.Tile({
+        source: new ol.source.OSM(),
+          crossOrigin: ''
+        });
+
+
 
       var map = new ol.Map({
         target: 'map',
-        layers: [
-          new ol.layer.Tile({
-            preload: 4,
-            source: new ol.source.OSM()
-          })
-        ],
+        layers: [rasterLayer, vectorLayer1, vectorLayer2,vectorLayer3,vectorLayer4,vectorLayer5,vectorLayer6,vectorLayer7,vectorLayer8],
         // Improve user experience by loading tiles while animating. Will make
-        // animations stutter on mobile or slow devices.
+        // anim""ations stutter on mobile or slow devices.
         loadTilesWhileAnimating: true,
         view: view
       });
+
 
       // A bounce easing method (from https://github.com/DmitryBaranovskiy/raphael).
       function bounce(t) {
@@ -92,22 +194,16 @@
         });
       });
 
-      onClick('rotate-around-library', function() {
+      onClick('pan-to-main_gate', function() {
         view.animate({
-          rotation: view.getRotation() + 2 * Math.PI,
-          anchor: library
-        });
-      });
-      onClick('pan-to-enter', function() {
-        view.animate({
-          center: enter,
+          center: main_gate,
           duration: 2000
         });
       });
 
-      onClick('pan-to-tcc', function() {
+      onClick('pan-to-boyshostel', function() {
         view.animate({
-          center: tcc,
+          center: boyshostel,
           duration: 2000
         });
       });
@@ -173,15 +269,21 @@
           duration: 2000
         });
       });
+      onClick('pan-to-library', function() {
+        view.animate({
+          center: library,
+          duration: 2000
+        });
+      });
 
       function tour() {
-        var locations = [enter, pg_block, mba_block, auditorium, tcc, workshop,library,sports];
+        var locations = [main_gate, pg_block, mba_block, auditorium, library, workshop,sports, boyshostel];
         var index = -1;
         function next(more) {
           if (more) {
             ++index;
             if (index < locations.length) {
-              var delay = index === 0 ? 0 : 7500;
+              var delay = index === 0 ? 0 : 4000;
               setTimeout(function() {
                 flyTo(locations[index], next);
               }, delay);
@@ -196,6 +298,8 @@
       }
 
       onClick('tour', tour);
-    </script>
+
+   </script>
+
   </body>
 </html>
