@@ -4,6 +4,7 @@
 <!DOCTYPE html>
 <html>
   <head>
+<meta name=viewport content='width=700'>
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta content="text/html;charset=utf-8" http-equiv="Content-Type">
 <meta content="utf-8" http-equiv="encoding">
@@ -13,7 +14,9 @@
     <script src="https://cdn.polyfill.io/v2/polyfill.min.js?features=requestAnimationFrame,Element.prototype.classList,URL"></script>
     <script src="https://openlayers.org/en/v4.2.0/build/ol.js"></script>
 
-   
+<link rel="stylesheet" type="text/css" media="screen and (max-width: 360px)" href="portrait.css">
+<link rel="stylesheet" type="text/css" media="screen and (min-width: 361px) and (max-width: 480px)" href="landscape.css">
+<link rel="stylesheet" type="text/css" media="screen and (min-width: 481px)" href="desktop.css">    
 <link href="flatnav.css" rel="stylesheet">
 		<meta name="robots" content="noindex,follow" />
 <script src="https://code.jquery.com/jquery-2.2.3.min.js"></script>
@@ -25,7 +28,9 @@
 .ol-viewport{
 	z-index:-1;
 }
-
+.ol-viewport{
+	z-index:-1;
+}
 
 .container {
     overflow: hidden;
@@ -85,6 +90,50 @@
 
 .show {
     display: block;
+}
+/* regular css */
+.tabs {
+  padding: 10px 2em
+}
+
+@media screen and (max-width: 500px) {
+/* applies only if the screen is narrower than 500px */
+  .tabs {
+    padding: 3px 1em
+  }
+}
+/* regular css */
+#header {
+  position: fixed
+}
+
+@media screen and (max-width: 500px) {
+/* applies only if the screen is narrower than 500px */
+  #header {
+    position: static
+  }
+}
+#somethingorother {
+  width: 800px ;
+}
+
+@media screen and (max-width: 320px) {
+  /* comes into effect for screens less than or equal to 320 pixels */
+  #somethingorother {
+    width: 120px ;
+  }
+}
+@media screen and (min-width: 321px) and (max-width: 480px) {
+  /* comes into effect for screens between 321 and 480 pixels (inclusive) */
+  #somethingorother {
+    width: 320px ;
+  }
+}
+@media screen and (min-width: 481px) {
+  /* comes into effect for screens larger than or equal to 481 pixels */
+  #somethingorother {
+    width: 480px ;
+  }
 }
 
 </style>
